@@ -1,0 +1,23 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        int n = matrix.length;
+
+        for (int i = 0; i < n; i++) {
+            minHeap.offer(new int[]{matrix[i][0], i, 0});
+        }
+
+        while (k-- > 1) {
+            int[] entry = minHeap.poll();
+            int row = entry[1], col = entry[2];
+
+            if (col + 1 < n) {
+                minHeap.offer(new int[]{matrix[row][col + 1], row, col + 1});
+            }
+        }
+
+        return minHeap.poll()[0];
+    }
+}
